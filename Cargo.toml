@@ -1,0 +1,8 @@
+[package]
+name = "rubik_research"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+bevy = { version = "0.11.2" }
+clippy = "0.0.302"
