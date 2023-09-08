@@ -90,16 +90,17 @@ dependencies = [
 ]
 
 [[package]]
-name = "icub3d_combinatorics"
-version = "0.1.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "bdd2210f7a0d94e024683e78b6524687a8e74f0a70bc10b9634741115f2ee6d1"
-
-[[package]]
 name = "libc"
 version = "0.2.147"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "b4668fb0ea861c1df094127ac5f1da3409a82116a4ba74fca2e58ef927159bb3"
+
+[[package]]
+name = "permutations"
+version = "0.1.0"
+dependencies = [
+ "clippy",
+]
 
 [[package]]
 name = "redox_syscall"
@@ -116,14 +117,6 @@ dependencies = [
  "getrandom",
  "redox_syscall",
  "rust-argon2",
-]
-
-[[package]]
-name = "rubik_research"
-version = "0.1.0"
-dependencies = [
- "clippy",
- "icub3d_combinatorics",
 ]
 
 [[package]]
