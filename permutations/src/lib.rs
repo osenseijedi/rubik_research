@@ -213,22 +213,26 @@ impl Permutation {
         return compose_4(rhs, self, &rhs.inverse(), &self.inverse());
     }
 
-    pub fn to_string_cycles(&self) -> String {
+    pub fn print(&self) -> String {
+        return self.to_string();
+    }
+
+    pub fn print_cycles(&self) -> String {
         return format!("{:?}", convert_one_line_to_cycles(&self.one_line_permutation));
     }
 
-    pub fn to_string_one_line(&self) -> String {
+    pub fn print_one_line(&self) -> String {
         return format!("{:?}", &self.one_line_permutation);
     }
 
     // TODO
-    // pub fn to_string_two_line(&self) -> String {
+    // pub fn print_two_lines(&self) -> String {
     //
     // }
 }
 
 
-fn next_false(table: &Vec<bool>, starting_position: usize) -> Option<usize>{
+fn next_false(table: &Vec<bool>, starting_position: usize) -> Option<usize> {
     return (starting_position..table.len()).find(|&index| !table[index]);
 }
 
@@ -297,7 +301,7 @@ fn convert_one_line_to_cycles(one_line: &Vec<usize>) -> Vec<Vec<usize>> {
     return cycles;
 }
 
-impl Display for Permutation{
+impl Display for Permutation {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         return write!(f, "{}", self.name);
     }
@@ -421,13 +425,13 @@ mod test {
         let d: Permutation = Permutation::create_permutation("d".to_string(), vec![vec![3, 43, 53, 23], vec![4, 44, 54, 24], vec![31, 34, 33, 32]]);
         let b: Permutation = Permutation::create_permutation("b".to_string(), vec![vec![11, 22, 33, 44], vec![12, 23, 34, 41], vec![51, 54, 53, 52]]);
 
-        assert_eq!("[]".to_string(), id.to_string_cycles());
-        assert_eq!("[[1, 4, 3, 2], [13, 42, 31, 24], [14, 43, 32, 21]]".to_string(), f.to_string_cycles());
-        assert_eq!("[[1, 11, 53, 31], [4, 14, 52, 34], [41, 44, 43, 42]]".to_string(), l.to_string_cycles());
-        assert_eq!("[[1, 21, 51, 41], [2, 22, 52, 42], [11, 14, 13, 12]]".to_string(), u.to_string_cycles());
-        assert_eq!("[[2, 32, 54, 12], [3, 33, 51, 13], [21, 24, 23, 22]]".to_string(), r.to_string_cycles());
-        assert_eq!("[[3, 43, 53, 23], [4, 44, 54, 24], [31, 34, 33, 32]]".to_string(), d.to_string_cycles());
-        assert_eq!("[[11, 22, 33, 44], [12, 23, 34, 41], [51, 54, 53, 52]]".to_string(), b.to_string_cycles());
+        assert_eq!("[]".to_string(), id.print_cycles());
+        assert_eq!("[[1, 4, 3, 2], [13, 42, 31, 24], [14, 43, 32, 21]]".to_string(), f.print_cycles());
+        assert_eq!("[[1, 11, 53, 31], [4, 14, 52, 34], [41, 44, 43, 42]]".to_string(), l.print_cycles());
+        assert_eq!("[[1, 21, 51, 41], [2, 22, 52, 42], [11, 14, 13, 12]]".to_string(), u.print_cycles());
+        assert_eq!("[[2, 32, 54, 12], [3, 33, 51, 13], [21, 24, 23, 22]]".to_string(), r.print_cycles());
+        assert_eq!("[[3, 43, 53, 23], [4, 44, 54, 24], [31, 34, 33, 32]]".to_string(), d.print_cycles());
+        assert_eq!("[[11, 22, 33, 44], [12, 23, 34, 41], [51, 54, 53, 52]]".to_string(), b.print_cycles());
 
         let idi: Permutation = id.inverse();
         let fi: Permutation = f.inverse();
@@ -437,13 +441,13 @@ mod test {
         let di: Permutation = d.inverse();
         let bi: Permutation = b.inverse();
 
-        assert_eq!("[]".to_string(), idi.to_string_cycles());
-        assert_eq!("[[1, 2, 3, 4], [13, 24, 31, 42], [14, 21, 32, 43]]".to_string(), fi.to_string_cycles());
-        assert_eq!("[[1, 31, 53, 11], [4, 34, 52, 14], [41, 42, 43, 44]]".to_string(), li.to_string_cycles());
-        assert_eq!("[[1, 41, 51, 21], [2, 42, 52, 22], [11, 12, 13, 14]]".to_string(), ui.to_string_cycles());
-        assert_eq!("[[2, 12, 54, 32], [3, 13, 51, 33], [21, 22, 23, 24]]".to_string(), ri.to_string_cycles());
-        assert_eq!("[[3, 23, 53, 43], [4, 24, 54, 44], [31, 32, 33, 34]]".to_string(), di.to_string_cycles());
-        assert_eq!("[[11, 44, 33, 22], [12, 41, 34, 23], [51, 52, 53, 54]]".to_string(), bi.to_string_cycles());
+        assert_eq!("[]".to_string(), idi.print_cycles());
+        assert_eq!("[[1, 2, 3, 4], [13, 24, 31, 42], [14, 21, 32, 43]]".to_string(), fi.print_cycles());
+        assert_eq!("[[1, 31, 53, 11], [4, 34, 52, 14], [41, 42, 43, 44]]".to_string(), li.print_cycles());
+        assert_eq!("[[1, 41, 51, 21], [2, 42, 52, 22], [11, 12, 13, 14]]".to_string(), ui.print_cycles());
+        assert_eq!("[[2, 12, 54, 32], [3, 13, 51, 33], [21, 22, 23, 24]]".to_string(), ri.print_cycles());
+        assert_eq!("[[3, 23, 53, 43], [4, 24, 54, 44], [31, 32, 33, 34]]".to_string(), di.print_cycles());
+        assert_eq!("[[11, 44, 33, 22], [12, 41, 34, 23], [51, 52, 53, 54]]".to_string(), bi.print_cycles());
     }
 
     #[test]
@@ -532,19 +536,18 @@ mod test {
         let b: Permutation = Permutation::create_permutation("b".to_string(), vec![vec![11, 22, 33, 44], vec![12, 23, 34, 41], vec![51, 54, 53, 52]]);
 
 
-        assert_eq!(id.to_string_one_line(),
+        assert_eq!(id.print_one_line(),
                    "[]".to_string());
-        assert_eq!(f.to_string_one_line(),
+        assert_eq!(f.print_one_line(),
                    "[0, 4, 1, 2, 3, 5, 6, 7, 8, 9, 10, 11, 12, 42, 43, 15, 16, 17, 18, 19, 20, 14, 22, \
                    23, 13, 25, 26, 27, 28, 29, 30, 24, 21, 33, 34, 35, 36, 37, 38, 39, 40, 41, 31, 32]".to_string());
-        assert_eq!(l.to_string_one_line(),
+        assert_eq!(l.print_one_line(),
                    "[0, 11, 2, 3, 14, 5, 6, 7, 8, 9, 10, 53, 12, 13, 52, 15, 16, 17, 18, 19, 20, 21, 22, \
                    23, 24, 25, 26, 27, 28, 29, 30, 1, 32, 33, 4, 35, 36, 37, 38, 39, 40, 44, 41, 42, 43, \
                    45, 46, 47, 48, 49, 50, 51, 34, 31]".to_string());
-        assert_eq!(b.to_string_one_line(),
+        assert_eq!(b.print_one_line(),
                    "[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 22, 23, 13, 14, 15, 16, 17, 18, 19, 20, 21, 33, \
                    34, 24, 25, 26, 27, 28, 29, 30, 31, 32, 44, 41, 35, 36, 37, 38, 39, 40, 12, 42, 43, \
                    11, 45, 46, 47, 48, 49, 50, 54, 51, 52, 53]".to_string());
-
     }
 }
