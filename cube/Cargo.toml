@@ -1,5 +1,5 @@
 [package]
-name = "main"
+name = "cube"
 version = "0.1.0"
 edition = "2021"
 
@@ -7,5 +7,6 @@ edition = "2021"
 
 [dependencies]
 clippy = "0.0.302"
+colorful = "0.2.2"
+phf = {version = "0.11.2", features = ["macros"]}
 permutations = { path = "../permutations"}
-cube = { path = "../cube"}
