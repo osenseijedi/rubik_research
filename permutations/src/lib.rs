@@ -38,12 +38,12 @@ pub struct Permutation {
 
 
 pub fn compose(p1: &Permutation, p2: &Permutation) -> Permutation {
-    if p1.is_identity {
-        return Permutation::create_permutation_one_line(p2.name.clone(), p2.one_line_permutation.clone());
-    }
-    if p2.is_identity {
-        return Permutation::create_permutation_one_line(p1.name.clone(), p1.one_line_permutation.clone());
-    }
+    // if p1.is_identity {
+    //     return Permutation::create_permutation_one_line(p2.name.clone(), p2.one_line_permutation.clone());
+    // }
+    // if p2.is_identity {
+    //     return Permutation::create_permutation_one_line(p1.name.clone(), p1.one_line_permutation.clone());
+    // }
 
     let new_degree = max(p1.degree(), p2.degree());
     let mut result_one_line = vec![0; new_degree];
@@ -457,7 +457,7 @@ mod test {
         let l: Permutation = Permutation::create_permutation("l".to_string(), vec![vec![1, 11, 53, 31], vec![4, 14, 52, 34], vec![41, 44, 43, 42]]);
         let b: Permutation = Permutation::create_permutation("b".to_string(), vec![vec![11, 22, 33, 44], vec![12, 23, 34, 41], vec![51, 54, 53, 52]]);
 
-        assert_eq!(compose(&id, &id), id);
+        assert_eq!(compose(&id, &id), Permutation { name: "id * id".to_string(), one_line_permutation: vec![], is_identity: true, internal_degree: 0 });
         assert_eq!(compose(&f, &l),
                    Permutation::create_permutation(
                        "f * l".to_string(),

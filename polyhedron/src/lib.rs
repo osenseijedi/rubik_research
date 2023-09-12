@@ -4,6 +4,7 @@ use crate::polyhedron::PolyhedronDefinition;
 
 pub mod polyhedron;
 pub mod cube2x2;
+pub mod tetrahedron_inflated_3x3;
 
 pub struct Polyhedron {
     polyhedron_definition: Box<dyn PolyhedronDefinition>,
@@ -95,7 +96,7 @@ mod tests {
         let mut cube2x2 = Polyhedron::create_polyhedron(polyhedron_definition);
 
         cube2x2.print_polyhedron();
-        cube2x2.rotate("b_tech");
+        cube2x2.rotate("b_tech_right");
         cube2x2.print_polyhedron();
     }
 }

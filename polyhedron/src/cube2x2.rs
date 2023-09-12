@@ -28,15 +28,14 @@ impl Cube2x2Definition {
         let di = d.inverse();
         let bi = b.inverse();
 
-        let a_tech = Permutation::create_permutation_from_composition("a_tech".to_string(), vec![&f, &di, &fi, &di, &ri, &d, &r]);
-        let b_tech = Permutation::create_permutation_from_composition("a_tech".to_string(), vec![&f, &di, &fi, &di, &di, &ri, &d, &d, &r]);
-
-        // public static final Perm A2_tech = new Perm("A2_tech", Fi, D, F, D, L, Di, Li);
-        // public static final Perm B2_tech = new Perm("B2_tech", Fi, D, F, D, D, L, Di, Di, Li);
-        //
-        // public static final Perm C_tech = new Perm("C_tech", Di, Fi, D, Fi, Di, F, F, D);
-        // public static final Perm D_tech = new Perm("D_tech", Di, Fi, Fi, D, F, Di, F, D);
-
+        let a_tech_right = Permutation::create_permutation_from_composition("a_tech_right".to_string(), vec![&f, &di, &fi, &di, &ri, &d, &r]);
+        let b_tech_right = Permutation::create_permutation_from_composition("b_tech_right".to_string(), vec![&f, &di, &fi, &di, &di, &ri, &d, &d, &r]);
+        let a_left_left = Permutation::create_permutation_from_composition("a_left_left".to_string(), vec![&fi, &d, &f, &d, &l, &di, &li]);
+        let b_tech_left = Permutation::create_permutation_from_composition("b_tech_left".to_string(), vec![&fi, &d, &f, &d, &d, &l, &di, &di, &li]);
+        let c_tech_right = Permutation::create_permutation_from_composition("c_tech_right".to_string(), vec![&di, &fi, &d, &fi, &di, &f, &f, &d]);
+        let d_tech_right = Permutation::create_permutation_from_composition("d_tech_right".to_string(), vec![&di, &fi, &fi, &d, &f, &di, &f, &d]);
+        let c_tech_left = Permutation::create_permutation_from_composition("c_tech_left".to_string(), vec![]);
+        let d_tech_left = Permutation::create_permutation_from_composition("d_tech_left".to_string(), vec![]);
 
         permitted_permutations.insert("id".to_string(), Permutation::identity());
         permitted_permutations.insert("f".to_string(), f);
@@ -53,8 +52,14 @@ impl Cube2x2Definition {
         permitted_permutations.insert("di".to_string(), di);
         permitted_permutations.insert("bi".to_string(), bi);
 
-        permitted_permutations.insert("a_tech".to_string(), a_tech);
-        permitted_permutations.insert("b_tech".to_string(), b_tech);
+        permitted_permutations.insert("a_tech_right".to_string(), a_tech_right);
+        permitted_permutations.insert("b_tech_right".to_string(), b_tech_right);
+        permitted_permutations.insert("a_left_left".to_string(), a_left_left);
+        permitted_permutations.insert("b_tech_left".to_string(), b_tech_left);
+        permitted_permutations.insert("c_tech_right".to_string(), c_tech_right);
+        permitted_permutations.insert("d_tech_right".to_string(), d_tech_right);
+        permitted_permutations.insert("c_tech_left".to_string(), c_tech_left);
+        permitted_permutations.insert("d_tech_left".to_string(), d_tech_left);
 
         return Self {
             permitted_permutations
@@ -71,28 +76,13 @@ impl PolyhedronDefinition for Cube2x2Definition {
     fn solved_state(&self) -> HashMap<usize, usize> {
         return solved_state();
     }
+
     fn get_color(&self, face_name: String) -> Color {
-        match face_name.as_str() {
-            "f" => Color::Red,
-            "u" => Color::Yellow,
-            "r" => Color::Green,
-            "d" => Color::White,
-            "l" => Color::Blue,
-            "b" => Color::Magenta,
-            _ => Color::Grey0
-        }
+        return self.default_get_color(face_name);
     }
 
     fn get_face_name(&self, position: usize) -> String {
-        return match position / 10 {
-            0 => { "f".to_string() }
-            1 => { "u".to_string() }
-            2 => { "r".to_string() }
-            3 => { "d".to_string() }
-            4 => { "l".to_string() }
-            5 => { "b".to_string() }
-            _ => { panic!("Unrecognized position value : {}", position) }
-        };
+        return self.default_face_name(position);
     }
 
     fn get_permutation(&self, permutation_name: String) -> &Permutation {
@@ -138,12 +128,11 @@ impl PolyhedronDefinition for Cube2x2Definition {
         println!("          +----+----+");
 
         if self.solved_state() == current_state.clone() && before_state.clone() != current_state.clone() {
-            println!("{}", "...................................".gradient(Color::LightMagenta));
-            println!("{}{}{}",
-                     "......".gradient(Color::LightMagenta),
+            println!("{}", "...................................".gradient(Color::Red));
+            println!("{}{}{}", "......".gradient(Color::Red),
                      "      Solved      ".color(Color::Red).blink(),
-                     "...........".gradient(Color::LightMagenta));
-            println!("{}", "...................................".gradient(Color::LightMagenta));
+                     "...........".gradient(Color::Orange1));
+            println!("{}", "...................................".gradient(Color::Red));
         }
     }
 }
