@@ -26,8 +26,8 @@ impl TetrahedronInflated3x3Definition {
 
         permitted_permutations.insert("id".to_string(), Permutation::identity());
         permitted_permutations.insert("f".to_string(), f);
-        permitted_permutations.insert("u".to_string(), l);
-        permitted_permutations.insert("d".to_string(), r);
+        permitted_permutations.insert("l".to_string(), l);
+        permitted_permutations.insert("r".to_string(), r);
         permitted_permutations.insert("d".to_string(), d);
 
         permitted_permutations.insert("fi".to_string(), fi);
