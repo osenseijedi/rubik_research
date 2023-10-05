@@ -1,13 +1,17 @@
 use std::collections::{BTreeMap, HashMap};
+use colorful::Color;
 use permutations::Permutation;
 use crate::polyhedron::PolyhedronDefinition;
 
 pub mod polyhedron;
-pub mod cube2x2;
-pub mod tetrahedron_inflated_3x3;
+pub mod definition_cube_2x2;
+pub mod definition_tetrahedron_inflated_3x3;
 
-pub struct Polyhedron {
-    polyhedron_definition: Box<dyn PolyhedronDefinition>,
+pub type Pos3d = [f32; 3];
+pub type Quad = [Pos3d; 4];
+
+pub struct Polyhedron<T: PolyhedronDefinition> {
+    polyhedron_definition: T,
     solved_state: HashMap<usize, usize>,
     start_state: HashMap<usize, usize>,
     current_state: HashMap<usize, usize>,
@@ -16,8 +20,8 @@ pub struct Polyhedron {
     applied_permutations: Permutation,
 }
 
-impl Polyhedron {
-    pub fn create_polyhedron(poly_definition: Box<dyn PolyhedronDefinition>) -> Self {
+impl<T: PolyhedronDefinition> Polyhedron<T> {
+    pub fn create_polyhedron(poly_definition: T) -> Self {
         let solved_state = poly_definition.solved_state();
         let start_state = poly_definition.start_state();
 
@@ -62,6 +66,8 @@ impl Polyhedron {
         self.polyhedron_definition.print_polyhedron(&self.applied_permutations, &self.before_state, &self.current_state);
     }
 
+    /// Call this method to generate the code to initialise the polyhedron from the current state.
+    /// You would then typically paste the code in the definition file.
     pub fn print_current_state(&self) {
         let sorted_state = BTreeMap::from_iter(self.current_state.clone());
 
@@ -83,16 +89,45 @@ impl Polyhedron {
         println!("    ]); \
         }}")
     }
+
+
+    pub fn get_positions(&self) -> Vec<usize> {
+        return vec![1, 2, 3, 4];
+    }
+
+    pub fn get_meshes(&self) -> HashMap<usize, Quad> {
+        let unit = 1.0f32;
+        let zero = 0f32;
+
+        let mut r = HashMap::new();
+
+        r.insert(1, [[zero, zero, unit], [zero, unit, unit], [-unit, unit, unit], [-unit, zero, unit]]);
+        r.insert(2, [[zero, zero, unit], [unit, zero, unit], [unit, unit, unit], [zero, unit, unit]]);
+        r.insert(3, [[zero, zero, unit], [zero, -unit, unit], [unit, -unit, unit], [unit, zero, unit]]);
+        r.insert(4, [[zero, zero, unit], [-unit, zero, unit], [-unit, -unit, unit], [zero, -unit, unit]]);
+
+        // r.insert(0, vec![[   ], [   ], [   ], [   ]]);
+
+        return r;
+    }
+
+    pub fn get_color(&self, position: usize) -> Color {
+        let current_facelet = self.current_state.get(&position).unwrap();
+        let facename = self.polyhedron_definition.get_face_name(*current_facelet);
+        let color = self.polyhedron_definition.get_color(facename);
+
+        return color;
+    }
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
-    use cube2x2::Cube2x2Definition;
+    use definition_cube_2x2::Cube2x2Definition;
 
     #[test]
     fn it_works() {
-        let polyhedron_definition = Box::new(Cube2x2Definition::new());
+        let polyhedron_definition = Cube2x2Definition::new();
         let mut cube2x2 = Polyhedron::create_polyhedron(polyhedron_definition);
 
         cube2x2.print_polyhedron();

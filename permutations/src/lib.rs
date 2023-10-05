@@ -38,13 +38,6 @@ pub struct Permutation {
 
 
 pub fn compose(p1: &Permutation, p2: &Permutation) -> Permutation {
-    // if p1.is_identity {
-    //     return Permutation::create_permutation_one_line(p2.name.clone(), p2.one_line_permutation.clone());
-    // }
-    // if p2.is_identity {
-    //     return Permutation::create_permutation_one_line(p1.name.clone(), p1.one_line_permutation.clone());
-    // }
-
     let new_degree = max(p1.degree(), p2.degree());
     let mut result_one_line = vec![0; new_degree];
 
